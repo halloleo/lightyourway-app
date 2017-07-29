@@ -14,7 +14,7 @@ A GovHack ACT 017 competition entry.
 
     phonegap create sample
 
-and copy the `sample/platforms` and `sample/plugins` directories to this repository. (I didn't include these directories because the contain lots of auto-downloaded stuff.)
+and copy the `sample/hooks`, `sample/platforms` and `sample/plugins` directories to this repository. (I didn't include these directories because the contain lots of auto-downloaded stuff.)
 
 **Step 4.** Then cd into this repository and run
 

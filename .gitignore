@@ -2,10 +2,6 @@
 .DS_Store
 Icon
 
-#Project defaults
-index.html
-js/index.js
-
 #Cordova goodies that we don't need to track
 cordova*.*
 cordova-js-src/
