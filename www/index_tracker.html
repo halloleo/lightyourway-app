@@ -1,0 +1,340 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Track widget simulation - 4.4</title>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+    }
+  </style>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.4/esri/css/main.css">
+
+  <script>
+    var dojoConfig = {
+      packages: [{
+        name: "geolocate",
+        location: "//2gis.github.io/mock-geolocation/dist",
+        main: "geolocate"
+      }]
+    }
+  </script>
+
+  <script src="https://js.arcgis.com/4.4/"></script>
+
+  <script>
+    require([
+      "geolocate", // geolocation simulator (https://github.com/2gis/mock-geolocation)
+      "esri/widgets/Track",
+      "esri/views/SceneView",
+      "esri/Map",
+      "dojo/domReady!"
+    ], function(
+      geolocate,
+      Track,
+      SceneView,
+      Map
+    ) {
+
+      // geolocation simulator
+      stubGeolocation();
+
+      var map = new Map({
+        basemap: "topo"
+      });
+
+      var view = new SceneView({
+        map: map,
+        container: "viewDiv",
+        center: [149.1256671,-35.3304478],
+        zoom: 18,
+        ui: {
+          components: ["attribution"] // replace default set of UI components
+        }
+      });
+
+      var track = new Track({
+        view: view,
+        goToLocationEnabled: false // disable this since we want to control what happens after our location is acquired
+      });
+      view.ui.add(track, "top-left");
+
+      view.then(function() {
+
+        var prevLocation = view.center;
+
+        track.on("track", function() {
+          var location = track.graphic.geometry;
+
+          view.goTo({
+            center: location,
+            tilt: 50,
+            scale: 2500,
+            heading: 360 - getHeading(location, prevLocation)
+          });
+
+          prevLocation = location.clone();
+        });
+
+        track.start();
+      });
+
+      function getHeading(point, oldPoint) {
+        // get angle between two points
+        var angleInDegrees = Math.atan2(point.y - oldPoint.y, point.x -
+            oldPoint.x) * 180 /
+          Math.PI;
+
+        // move heading north
+        return -90 + angleInDegrees;
+      }
+
+      // geolocation simulator
+      function stubGeolocation() {
+        var coords = [
+          {
+            lat: -35.330843, 
+            lng: 149.125640
+          },
+          {
+            lng: 149.125606,
+            lat: -35.330664
+          },
+          {
+            lng: 149.125548,
+            lat: -35.330507
+          },
+          {
+            lng: 149.125480,
+            lat: -35.330343
+          },
+          {
+            lng: 149.125413,
+            lat: -35.330199
+          },
+          {
+            lng: 149.125313,
+            lat: -35.330048
+          },
+          {
+            lng: 149.125195,
+            lat: -35.329891
+          },
+          {
+            lng: 149.125052,
+            lat: -35.329740
+          },
+          {
+            lng: 149.124901,
+            lat: -35.329596
+          },
+          {
+            lat: -35.329541,
+            lng: 149.124826
+          },
+          {
+            lat: -35.329494,
+            lng: 149.124935
+          },
+          {
+            lng: 149.125086,
+            lat: -35.329439
+          },
+          {
+            lng: 149.125212,
+            lat: -35.329391
+          },
+          {
+            lng: 149.125346,
+            lat: -35.329343
+          },
+          {
+            lng: 149.125455,
+            lat: -35.329302
+          },
+          {
+            lng: 149.125590,
+            lat: -35.329254
+          },
+          {
+            lng: 149.125724,
+            lat: -35.329199
+          },
+          {
+            lng: 149.125850,
+            lat: -35.329151
+          },
+          {
+            lng: 149.126001,
+            lat: -35.329096
+          },
+          {
+            lat: -35.329042,
+            lng: 149.126144
+          },
+          {
+            lng: 149.126269,
+            lat: -35.328994
+          },
+          {
+            lng: 149.126412,
+            lat: -35.328939
+          },
+		  {
+            lng: 149.126580,
+            lat: -35.328877
+          },
+		  {
+            lng: 149.126756,
+            lat: -35.328816
+          },
+		  {
+            lng: 149.126916,
+            lat: -35.328747
+          },
+		  {
+            lng: 149.127092,
+            lat: -35.328679
+          },
+		  {
+            lng: 149.127268,
+            lat: -35.328617
+          },
+		  {
+            lng: 149.127428,
+            lat: -35.328549
+          },
+		  {
+            lng: 149.127604,
+            lat: -35.328487
+          },
+		  {
+            lng: 149.127738,
+            lat: -35.328507
+          },
+		  {
+            lng: 149.127822,
+            lat: -35.328638
+          },
+		  {
+            lng: 149.127881,
+            lat: -35.328768
+          },
+		  {
+            lng: 149.127940,
+            lat: -35.328918
+          },
+		  {
+            lng: 149.128007,
+            lat: -35.329069
+          },
+		  {
+            lng: 149.128066,
+            lat: -35.329213
+          },
+		  {
+            lng: 149.128124,
+            lat: -35.329350
+          },
+		  {
+            lng: 149.128183,
+            lat: -35.329480
+          },
+		  {
+            lng: 149.128250,
+            lat: -35.329637
+          },
+		  {
+            lng: 149.128326,
+            lat: -35.329788
+          },
+		  {
+            lng: 149.128401,
+            lat: -35.329945
+          },
+		  {
+            lng: 149.128469,
+            lat: -35.330082
+          },
+		  {
+            lng: 149.128544,
+            lat: -35.330226
+          },
+		  {
+            lng: 149.128628,
+            lat: -35.330377
+          },
+		  {
+            lng: 149.128712,
+            lat: -35.330541
+          },
+		  {
+            lng: 149.128796,
+            lat: -35.330692
+          },
+		  {
+            lng: 149.128871,
+            lat: -35.330836
+          },
+		  {
+            lng: 149.128955,
+            lat: -35.330973
+          },
+		  {
+            lng: 149.129048,
+            lat: -35.331116
+          },
+		  {
+            lng: 149.129123,
+            lat: -35.331247
+          },
+		  {
+            lng: 149.129207,
+            lat: -35.331404
+          },
+		  {
+            lng: 149.129197,
+            lat: -35.331441
+          },
+		  {
+            lng: 149.129094,
+            lat: -35.331487
+          },
+		  {
+            lng: 149.128999,
+            lat: -35.331522
+          },
+		  {
+            lng: 149.128920,
+            lat: -35.331558
+          },
+		  {
+            lng: 149.128848,
+            lat: -35.331600
+          }
+		  ],
+          currentCoordIndex = 0;
+
+        geolocate.use();
+
+        setInterval(function() {
+          geolocate.change(coords[currentCoordIndex]);
+          currentCoordIndex = (currentCoordIndex + 1) % coords.length;
+        }, 1500);
+
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+</body>
+
+</html>

@@ -5,48 +5,21 @@ document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady(){
     console.log("Loading ArcGIS...");
-    require(
-        [
-            "esri/map",
-            "esri/layers/CSVLayer",
-            "esri/symbols/PictureMarkerSymbol",
-            "esri/graphic",
-            "esri/SpatialReference",
-            "esri/geometry/Point",
-            "esri/layers/CSVLayer",
-            "esri/Color",
-            "esri/symbols/SimpleMarkerSymbol",
-            "esri/renderers/SimpleRenderer",
-            "esri/InfoTemplate",
-            "esri/config",
-            "dojo/on",
-            "dojo/domReady!"
-        ], function(
-            Map,CSVLayer,Color,SimpleMarkerSymbol,SimpleRenderer,InfoTemplate,esriConfig,PictureMarkerSymbol,Graphic,SpatialReference,Point,on
-        ) {
-            map = new Map("mapDiv",{
-                //basemap: "streets",
-                basemap: "gray",
+    require([
+             "esri/map",
+             "esri/symbols/PictureMarkerSymbol",
+             "esri/graphic",
+             "esri/SpatialReference",
+             "esri/geometry/Point",
+             "dojo/on",
+             "dojo/domReady!"],
+        function(Map,PictureMarkerSymbol,Graphic,SpatialReference,Point,on) {
+            // Create map
+            var map = new Map("mapDiv",{
+                basemap: "streets",
                 center: [149.129759,-35.312396],
                 zoom: 13
             });
-
-            // csv = new CSVLayer("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.csv", {
-            //     copyright: "USGS.gov"
-            // });
-            csv = new CSVLayer("http://schwa09.it.usyd.edu.au:8000/data/ACT_Streetlights_arcgis.csv", {
-                copyright: "act.gov.au"
-            });
-
-            
-            var orangeRed = new Color([238, 69, 0, 0.5]); // hex is #ff4500
-            var marker = new SimpleMarkerSymbol("solid", 15, null, orangeRed);
-            var renderer = new SimpleRenderer(marker);
-            csv.setRenderer(renderer);
-            var template = new InfoTemplate("${type}", "${place}");
-            csv.setInfoTemplate(template);
-            map.addLayer(csv);
-
             // Wait until map has loaded before starting geolocation
             map.on("load",startGeolocation);
             // Create the marker symbol
